@@ -1,14 +1,13 @@
 package com.ifeins.tenbis;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,10 +48,12 @@ public class OverallActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             subscribeForUpdates(user);
+        } else {
+            signIn();
         }
     }
 
-    public void signIn(View view) {
+    public void signIn() {
         List<AuthUI.IdpConfig> providers = Collections.singletonList(
                 new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
         );

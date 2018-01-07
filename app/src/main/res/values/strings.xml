@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">tenbis</string>
+    <string name="app_name">10Bis Monitor</string>
     <string name="welcome_message">Hello %1$s</string>
+    <string name="btn_sign_out">Sign out</string>
 </resources>
