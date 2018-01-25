@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "494036885160",
-    "firebase_url": "https://tenbis-46a46.firebaseio.com",
-    "project_id": "tenbis-46a46",
-    "storage_bucket": "tenbis-46a46.appspot.com"
+    "project_number": "908361550856",
+    "firebase_url": "https://tenbis-monitor.firebaseio.com",
+    "project_id": "tenbis-monitor",
+    "storage_bucket": "tenbis-monitor.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:494036885160:android:4702aa98a9fa6520",
+        "mobilesdk_app_id": "1:908361550856:android:4702aa98a9fa6520",
         "android_client_info": {
           "package_name": "com.ifeins.tenbis"
         }
       },
       "oauth_client": [
         {
-          "client_id": "494036885160-0io1blq5m10uifmhj4n11meo7duqrv26.apps.googleusercontent.com",
+          "client_id": "908361550856-vj8vfla0b5puhn6lpciruqq9drrc8dnk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ifeins.tenbis",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "494036885160-6s34v3r6u9ehp2rc57va3ougo8rf1mbe.apps.googleusercontent.com",
+          "client_id": "908361550856-evh6185tagh79fag0llomii6lkbg6euu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBevsPGWhxDpkw2rpw5EOu4nMG4V0FzAns"
+          "current_key": "AIzaSyD9alduMVoamVDcPEZnEEPuJp2WBddX7yE"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "494036885160-6s34v3r6u9ehp2rc57va3ougo8rf1mbe.apps.googleusercontent.com",
+              "client_id": "908361550856-evh6185tagh79fag0llomii6lkbg6euu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
