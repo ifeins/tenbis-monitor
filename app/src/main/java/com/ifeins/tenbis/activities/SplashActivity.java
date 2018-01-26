@@ -10,12 +10,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.ifeins.tenbis.R;
 
 import java.util.Collections;
 import java.util.List;
 
-public class SignInActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 1;
 
@@ -25,12 +24,6 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -54,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void onUserLoggedIn(@NonNull FirebaseUser user) {
         mUsersRef.document(user.getUid()).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
+            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
                 showOverallStatsPage();
             } else {
                 showSignUpPage();

@@ -47,7 +47,7 @@ public class OverallActivity extends AppCompatActivity {
             subscribeForUpdates(currentUser);
         } else {
             finish();
-            startActivity(new Intent(this, SignInActivity.class));
+            startActivity(new Intent(this, SplashActivity.class));
         }
     }
 

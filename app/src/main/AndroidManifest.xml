@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.OverallActivity"/>
         <activity
-            android:name=".activities.SignInActivity"
+            android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

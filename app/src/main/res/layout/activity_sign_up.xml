@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="88dp"
         android:layout_height="95dp"
-        app:srcCompat="@drawable/ic_face_black_24dp"
+        app:srcCompat="@drawable/ic_account_circle_black_24dp"
         android:id="@+id/image_view_profile"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
