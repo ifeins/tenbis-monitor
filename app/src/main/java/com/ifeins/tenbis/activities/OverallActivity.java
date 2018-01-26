@@ -1,4 +1,4 @@
-package com.ifeins.tenbis;
+package com.ifeins.tenbis.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,17 +16,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ifeins.tenbis.R;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OverallActivity extends AppCompatActivity {
 
     private static final String TAG = "OverallActivity";
-
-    private static final int RC_SIGN_IN = 1;
 
     private static final CollectionReference mUsersRef =
             FirebaseFirestore.getInstance().collection("users");
@@ -45,24 +42,13 @@ public class OverallActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            subscribeForUpdates(user);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            subscribeForUpdates(currentUser);
         } else {
-            signIn();
+            finish();
+            startActivity(new Intent(this, SignInActivity.class));
         }
-    }
-
-    public void signIn() {
-        List<AuthUI.IdpConfig> providers = Collections.singletonList(
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
-        );
-
-        Intent intent = AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build();
-        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     public void signOut(View view) {
@@ -75,15 +61,7 @@ public class OverallActivity extends AppCompatActivity {
                 });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            updateUser(user);
-        }
-    }
 
     private void updateUI(@Nullable DocumentSnapshot documentSnapshot) {
         if (documentSnapshot != null && documentSnapshot.exists()) {

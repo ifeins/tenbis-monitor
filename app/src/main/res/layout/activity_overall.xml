@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ifeins.tenbis.OverallActivity">
+    tools:context="com.ifeins.tenbis.activities.OverallActivity">
 
     <Button
         android:text="@string/btn_sign_out"

@@ -2,4 +2,7 @@
     <string name="app_name">10Bis Monitor</string>
     <string name="welcome_message">Hello %1$s</string>
     <string name="btn_sign_out">Sign out</string>
+    <string name="input_signup_email_hint">Email</string>
+    <string name="input_signup_password_hint">Password</string>
+    <string name="btn_sign_up">Sign up</string>
 </resources>
