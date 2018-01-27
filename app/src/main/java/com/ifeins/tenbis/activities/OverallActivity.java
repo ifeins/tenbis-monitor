@@ -18,9 +18,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ifeins.tenbis.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class OverallActivity extends AppCompatActivity {
 
     private static final String TAG = "OverallActivity";
@@ -61,8 +58,6 @@ public class OverallActivity extends AppCompatActivity {
                 });
     }
 
-
-
     private void updateUI(@Nullable DocumentSnapshot documentSnapshot) {
         if (documentSnapshot != null && documentSnapshot.exists()) {
             mWelcomeTextView.setText(getString(
@@ -70,23 +65,6 @@ public class OverallActivity extends AppCompatActivity {
         } else {
             mWelcomeTextView.setText(null);
         }
-    }
-
-    private void updateUser(FirebaseUser user) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("name", user.getDisplayName());
-        fields.put("email", user.getEmail());
-        fields.put("phone", user.getPhoneNumber());
-
-        mUsersRef.document(user.getUid())
-                .set(fields)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        subscribeForUpdates(user);
-                    } else {
-                        Log.e(TAG, "updateUser: failed to update", task.getException());
-                    }
-                });
     }
 
     private void subscribeForUpdates(@NonNull FirebaseUser user) {
