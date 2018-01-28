@@ -9,4 +9,10 @@
     <string name="remaining_lunches">Remaining lunches: %1$s / %2$s</string>
     <string name="total_spent">Total spent: %1$s</string>
     <string name="average_lunch_spending">Average lunch spending: %1$s</string>
+    <string name="navigation_action_stats">Stats</string>
+    <string name="navigation_action_overview">Overview</string>
+    <string name="navigation_action_transactions">Transactions</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

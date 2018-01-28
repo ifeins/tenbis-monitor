@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/navigation_action_stats"
+        android:layout_width="wrap_content"
+        android:id="@+id/action_stats"
+        android:icon="@drawable/ic_show_chart_black_24dp"/>
+    <item
+        android:title="@string/navigation_action_overview"
+        android:id="@+id/action_overview"
+        android:icon="@drawable/ic_account_balance_black_24dp"/>
+    <item
+        android:title="@string/navigation_action_transactions"
+        android:id="@+id/action_transactions"
+        android:icon="@drawable/ic_list_black_24dp"/>
+</menu>
