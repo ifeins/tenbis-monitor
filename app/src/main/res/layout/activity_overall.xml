@@ -7,25 +7,59 @@
     android:layout_height="match_parent"
     tools:context="com.ifeins.tenbis.activities.OverallActivity">
 
-    <Button
-        android:text="@string/btn_sign_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_sign_out"
-        android:onClick="signOut"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"/>
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/welcome_text_view"
-        tools:text="Hello user"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:id="@+id/budget_view"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
+        tools:text="Budget: 120 / 920"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        tools:text="Remaining lunches: 5 / 23"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_out"/>
+        app:layout_constraintTop_toBottomOf="@+id/budget_view"
+        android:id="@+id/lunches_view"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        tools:text="Total spent: 964"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/total_spent_view"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/lunches_view"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        tools:text="Average lunch spending: 60.25"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/average_lunch_view"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/total_spent_view"/>
+
 </android.support.constraint.ConstraintLayout>

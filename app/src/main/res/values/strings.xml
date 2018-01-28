@@ -5,4 +5,8 @@
     <string name="input_signup_email_hint">Email</string>
     <string name="input_signup_password_hint">Password</string>
     <string name="btn_sign_up">Sign up</string>
+    <string name="remaining_budget">Remaining budget: %1$s / %2$s</string>
+    <string name="remaining_lunches">Remaining lunches: %1$s / %2$s</string>
+    <string name="total_spent">Total spent: %1$s</string>
+    <string name="average_lunch_spending">Average lunch spending: %1$s</string>
 </resources>

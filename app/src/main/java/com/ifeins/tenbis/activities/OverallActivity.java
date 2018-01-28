@@ -18,6 +18,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ifeins.tenbis.R;
 
+import org.threeten.bp.LocalDate;
+
+import java.util.Locale;
+
 public class OverallActivity extends AppCompatActivity {
 
     private static final String TAG = "OverallActivity";
@@ -25,14 +29,20 @@ public class OverallActivity extends AppCompatActivity {
     private static final CollectionReference mUsersRef =
             FirebaseFirestore.getInstance().collection("users");
 
-    private TextView mWelcomeTextView;
+    private TextView mBudgetView;
+    private TextView mLunchesView;
+    private TextView mTotalSpentView;
+    private TextView mAverageLunchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overall);
 
-        mWelcomeTextView = findViewById(R.id.welcome_text_view);
+        mBudgetView = findViewById(R.id.budget_view);
+        mLunchesView = findViewById(R.id.lunches_view);
+        mTotalSpentView = findViewById(R.id.total_spent_view);
+        mAverageLunchView = findViewById(R.id.average_lunch_view);
     }
 
     @Override
@@ -58,17 +68,30 @@ public class OverallActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateUI(@Nullable DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot != null && documentSnapshot.exists()) {
-            mWelcomeTextView.setText(getString(
-                    R.string.welcome_message, documentSnapshot.get("name")));
-        } else {
-            mWelcomeTextView.setText(null);
-        }
+    private void updateUI(@Nullable DocumentSnapshot document) {
+        if (document == null || !document.exists()) return;
+
+        mBudgetView.setText(getString(R.string.remaining_budget,
+                document.get("remainingMonthlyLunchBudget"), document.get("monthlyLunchBudget")));
+        mLunchesView.setText(getString(R.string.remaining_lunches,
+                document.get("remainingLunches"), document.get("workDays")));
+        mTotalSpentView.setText(getString(R.string.total_spent,
+                document.get("totalSpent")));
+        mAverageLunchView.setText(getString(R.string.average_lunch_spending,
+                document.get("averageLunchSpending")));
     }
 
     private void subscribeForUpdates(@NonNull FirebaseUser user) {
-        DocumentReference document = mUsersRef.document(user.getUid());
-        document.addSnapshotListener(this, (documentSnapshot, e) -> updateUI(documentSnapshot));
+        LocalDate now = LocalDate.now();
+        String reportId = String.format(Locale.getDefault(), "%02d-%d", now.getMonthValue(), now.getYear());
+        DocumentReference document = mUsersRef.document(user.getUid()).collection("reports").document(reportId);
+        Log.d(TAG, "subscribeForUpdates: " + document.getPath());
+        document.addSnapshotListener(this, (documentSnapshot, e) -> {
+            if (e != null) {
+                Log.e(TAG, "subscribeForUpdates: Failed to fetch snapshot", e);
+            } else {
+                updateUI(documentSnapshot);
+            }
+        });
     }
 }
