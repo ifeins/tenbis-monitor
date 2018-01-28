@@ -1,5 +1,6 @@
 package com.ifeins.tenbis.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -77,18 +79,22 @@ public class TransactionsFragment extends Fragment {
 
     private static class TransactionViewHolder extends RecyclerView.ViewHolder {
 
+        private final SimpleDraweeView mImageView;
         private final TextView mNameView;
         private final TextView mAmountView;
         private final TextView mDateView;
 
         public TransactionViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            mImageView = itemView.findViewById(R.id.image_view);
             mNameView = itemView.findViewById(R.id.name_view);
             mAmountView = itemView.findViewById(R.id.amount_view);
             mDateView = itemView.findViewById(R.id.date_view);
         }
 
         public void bind(@NonNull Transaction transaction) {
+            mImageView.setImageURI(Uri.parse(transaction.getRestaurantLogoUrl()));
             mNameView.setText(transaction.getRestaurantName());
             mAmountView.setText(String.format(Locale.getDefault(), "%.2f", transaction.getAmount()));
             mDateView.setText(transaction.getDate().format(DateTimeFormatter.ofPattern("LLL d, yyyy")));
