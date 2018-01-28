@@ -22,9 +22,9 @@ import org.threeten.bp.LocalDate;
 
 import java.util.Locale;
 
-public class OverallActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
-    private static final String TAG = "OverallActivity";
+    private static final String TAG = "HomeActivity";
 
     private static final CollectionReference mUsersRef =
             FirebaseFirestore.getInstance().collection("users");
@@ -37,7 +37,7 @@ public class OverallActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_overall);
+        setContentView(R.layout.activity_home);
 
         mBudgetView = findViewById(R.id.budget_view);
         mLunchesView = findViewById(R.id.lunches_view);

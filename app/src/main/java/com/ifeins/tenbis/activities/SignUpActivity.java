@@ -65,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     User.setCurrentUser(user);
-                    startActivity(new Intent(SignUpActivity.this, OverallActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
                 } else {
                     try {
                         showError(response.errorBody().string());

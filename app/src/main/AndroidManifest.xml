@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label, android:allowBackup, android:name">
-        <activity android:name=".activities.OverallActivity"/>
+        <activity android:name=".activities.HomeActivity"/>
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme"

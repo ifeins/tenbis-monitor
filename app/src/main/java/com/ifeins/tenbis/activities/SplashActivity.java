@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void showOverallStatsPage() {
-        startActivity(new Intent(this, OverallActivity.class));
+        startActivity(new Intent(this, HomeActivity.class));
     }
 
     @Override
