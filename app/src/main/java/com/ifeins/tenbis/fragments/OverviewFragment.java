@@ -1,6 +1,5 @@
 package com.ifeins.tenbis.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,16 +12,10 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.ifeins.tenbis.R;
-import com.ifeins.tenbis.activities.SplashActivity;
-
-import org.threeten.bp.LocalDate;
-
-import java.util.Locale;
+import com.ifeins.tenbis.utils.FirestoreUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +23,6 @@ import java.util.Locale;
 public class OverviewFragment extends Fragment {
 
     private static final String TAG = "OverviewFragment";
-
-    private static final CollectionReference mUsersRef =
-            FirebaseFirestore.getInstance().collection("users");
 
     private TextView mBudgetView;
     private TextView mLunchesView;
@@ -83,9 +73,7 @@ public class OverviewFragment extends Fragment {
     }
 
     private void subscribeForUpdates(@NonNull FirebaseUser user) {
-        LocalDate now = LocalDate.now();
-        String reportId = String.format(Locale.getDefault(), "%02d-%d", now.getMonthValue(), now.getYear());
-        DocumentReference document = mUsersRef.document(user.getUid()).collection("reports").document(reportId);
+        DocumentReference document = FirestoreUtils.getMonthlyReportReference(user.getUid());
         document.addSnapshotListener(getActivity(), (documentSnapshot, e) -> {
             if (e != null) {
                 Log.e(TAG, "subscribeForUpdates: Failed to fetch snapshot", e);
