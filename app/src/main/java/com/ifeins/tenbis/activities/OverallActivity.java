@@ -85,7 +85,6 @@ public class OverallActivity extends AppCompatActivity {
         LocalDate now = LocalDate.now();
         String reportId = String.format(Locale.getDefault(), "%02d-%d", now.getMonthValue(), now.getYear());
         DocumentReference document = mUsersRef.document(user.getUid()).collection("reports").document(reportId);
-        Log.d(TAG, "subscribeForUpdates: " + document.getPath());
         document.addSnapshotListener(this, (documentSnapshot, e) -> {
             if (e != null) {
                 Log.e(TAG, "subscribeForUpdates: Failed to fetch snapshot", e);
