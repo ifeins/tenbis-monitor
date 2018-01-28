@@ -32,10 +32,26 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mViewPager = findViewById(R.id.home_view_pager);
         mAdapter = new HomePageAdapter(getSupportFragmentManager());
+        mViewPager = findViewById(R.id.home_view_pager);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(ITEM_OVERVIEW);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case ITEM_STATS:
+                        mNavigationView.setSelectedItemId(R.id.action_stats);
+                        break;
+                    case ITEM_OVERVIEW:
+                        mNavigationView.setSelectedItemId(R.id.action_overview);
+                        break;
+                    case ITEM_TRANSACTIONS:
+                        mNavigationView.setSelectedItemId(R.id.action_transactions);
+                        break;
+                }
+            }
+        });
 
         mNavigationView = findViewById(R.id.navigation_view);
         mNavigationView.setSelectedItemId(R.id.action_overview);
