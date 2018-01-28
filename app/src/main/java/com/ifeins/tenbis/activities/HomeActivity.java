@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(ITEM_OVERVIEW);
 
         mNavigationView = findViewById(R.id.navigation_view);
+        mNavigationView.setSelectedItemId(R.id.action_overview);
         mNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_stats:
