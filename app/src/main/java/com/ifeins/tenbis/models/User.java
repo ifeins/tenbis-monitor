@@ -1,5 +1,7 @@
 package com.ifeins.tenbis.models;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -10,11 +12,12 @@ public class User {
 
     private static transient User sCurrentUser;
 
+    @Nullable
     public static User getCurrentUser() {
         return sCurrentUser;
     }
 
-    public static void setCurrentUser(User currentUser) {
+    public static void setCurrentUser(@Nullable User currentUser) {
         sCurrentUser = currentUser;
     }
 

@@ -12,13 +12,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.ifeins.tenbis.R;
 import com.ifeins.tenbis.fragments.OverviewFragment;
 import com.ifeins.tenbis.fragments.StatsFragment;
 import com.ifeins.tenbis.fragments.TransactionsFragment;
+import com.ifeins.tenbis.models.User;
+import com.ifeins.tenbis.services.TenbisMonitorService;
+import com.ifeins.tenbis.services.UsersService;
 import com.ifeins.tenbis.utils.MenuUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -104,13 +112,25 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void syncUserData() {
-        // TODO
+        UsersService usersService = TenbisMonitorService.getInstance().getUsersService();
+        usersService.refresh(User.getCurrentUser()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                // don't need to do anything as firestore will automatically take care of refreshing data
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void signOut() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener((task) -> {
+                    User.setCurrentUser(null);
                     if (!task.isSuccessful()) {
                         Log.e(TAG, "signOut: Failed to sign out", task.getException());
                     }

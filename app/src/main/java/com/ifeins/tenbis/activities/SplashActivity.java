@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ifeins.tenbis.models.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,6 +49,7 @@ public class SplashActivity extends AppCompatActivity {
     private void onUserLoggedIn(@NonNull FirebaseUser user) {
         mUsersRef.document(user.getUid()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                User.setCurrentUser(new User(user.getUid(), null, null));
                 showOverallStatsPage();
             } else {
                 showSignUpPage();
