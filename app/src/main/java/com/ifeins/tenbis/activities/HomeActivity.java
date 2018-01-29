@@ -7,7 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
@@ -15,6 +18,7 @@ import com.ifeins.tenbis.R;
 import com.ifeins.tenbis.fragments.OverviewFragment;
 import com.ifeins.tenbis.fragments.StatsFragment;
 import com.ifeins.tenbis.fragments.TransactionsFragment;
+import com.ifeins.tenbis.utils.MenuUtils;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -26,11 +30,15 @@ public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView mNavigationView;
     private ViewPager mViewPager;
     private HomePageAdapter mAdapter;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         mAdapter = new HomePageAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.home_view_pager);
@@ -72,7 +80,34 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void signOut(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home_actionbar, menu);
+        MenuUtils.tintMenuItemDrawable(this, menu, R.id.action_sync, android.R.color.white);
+        MenuUtils.tintMenuItemDrawable(this, menu, R.id.action_sign_out, android.R.color.white);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sync:
+                syncUserData();
+                return true;
+            case R.id.action_sign_out:
+                signOut();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void syncUserData() {
+        // TODO
+    }
+
+    public void signOut() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener((task) -> {
