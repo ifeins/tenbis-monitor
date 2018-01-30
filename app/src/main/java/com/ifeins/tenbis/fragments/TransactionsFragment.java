@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.ifeins.tenbis.R;
 import com.ifeins.tenbis.models.Transaction;
 import com.ifeins.tenbis.utils.FirestoreUtils;
@@ -30,11 +32,15 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TransactionsFragment extends Fragment {
+public class TransactionsFragment extends Fragment implements HomeAdapterFragment {
+
+    private static final String TAG = "TransactionsFragment";
 
     private List<Transaction> mTransactions = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private TransactionsAdapter mAdapter;
+    @Nullable
+    private ListenerRegistration mSnapshotListener;
 
     public TransactionsFragment() {
         // Required empty public constructor
@@ -63,18 +69,30 @@ public class TransactionsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            subscribeForUpdates(currentUser);
-        }
+        subscribeForUpdates();
     }
 
-    private void subscribeForUpdates(@NonNull FirebaseUser user) {
+    @Override
+    public void subscribeForUpdates() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
         CollectionReference collectionReference = FirestoreUtils.getMonthlyTransactionsReference(user.getUid());
-        collectionReference.addSnapshotListener(getActivity(), (documentSnapshots, e) -> {
-            mTransactions = documentSnapshots.toObjects(Transaction.class);
-            mAdapter.notifyDataSetChanged();
+        mSnapshotListener = collectionReference.addSnapshotListener(getActivity(), (documentSnapshots, e) -> {
+            if (e != null) {
+                Log.e(TAG, "subscribeForUpdates: error fetching transactions", e);
+            } else {
+                mTransactions = documentSnapshots.toObjects(Transaction.class);
+                mAdapter.notifyDataSetChanged();
+            }
         });
+    }
+
+    @Override
+    public void unsubscribeForUpdates() {
+        if (mSnapshotListener != null) {
+            mSnapshotListener.remove();
+        }
     }
 
     private static class TransactionViewHolder extends RecyclerView.ViewHolder {

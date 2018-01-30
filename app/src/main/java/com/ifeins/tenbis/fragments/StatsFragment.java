@@ -12,7 +12,7 @@ import com.ifeins.tenbis.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StatsFragment extends Fragment {
+public class StatsFragment extends Fragment implements HomeAdapterFragment {
 
 
     public StatsFragment() {
@@ -27,4 +27,13 @@ public class StatsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_stats, container, false);
     }
 
+    @Override
+    public void subscribeForUpdates() {
+
+    }
+
+    @Override
+    public void unsubscribeForUpdates() {
+
+    }
 }

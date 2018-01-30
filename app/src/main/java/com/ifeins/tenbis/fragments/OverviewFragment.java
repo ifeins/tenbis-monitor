@@ -14,13 +14,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.ifeins.tenbis.R;
 import com.ifeins.tenbis.utils.FirestoreUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OverviewFragment extends Fragment {
+public class OverviewFragment extends Fragment implements HomeAdapterFragment {
 
     private static final String TAG = "OverviewFragment";
 
@@ -28,6 +29,8 @@ public class OverviewFragment extends Fragment {
     private TextView mLunchesView;
     private TextView mTotalSpentView;
     private TextView mAverageLunchView;
+    @Nullable
+    private ListenerRegistration mSnapshotListener;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -53,10 +56,7 @@ public class OverviewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            subscribeForUpdates(currentUser);
-        }
+        subscribeForUpdates();
     }
 
     private void updateUI(@Nullable DocumentSnapshot document) {
@@ -72,14 +72,25 @@ public class OverviewFragment extends Fragment {
                 document.get("averageLunchSpending")));
     }
 
-    private void subscribeForUpdates(@NonNull FirebaseUser user) {
+    @Override
+    public void subscribeForUpdates() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
         DocumentReference document = FirestoreUtils.getMonthlyReportReference(user.getUid());
-        document.addSnapshotListener(getActivity(), (documentSnapshot, e) -> {
+        mSnapshotListener = document.addSnapshotListener(getActivity(), (documentSnapshot, e) -> {
             if (e != null) {
                 Log.e(TAG, "subscribeForUpdates: Failed to fetch snapshot", e);
             } else {
                 updateUI(documentSnapshot);
             }
         });
+    }
+
+    @Override
+    public void unsubscribeForUpdates() {
+        if (mSnapshotListener != null) {
+            mSnapshotListener.remove();
+        }
     }
 }

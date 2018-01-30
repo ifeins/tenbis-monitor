@@ -1,5 +1,6 @@
 package com.ifeins.tenbis.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -11,11 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ifeins.tenbis.R;
+import com.ifeins.tenbis.fragments.HomeAdapterFragment;
 import com.ifeins.tenbis.fragments.OverviewFragment;
 import com.ifeins.tenbis.fragments.StatsFragment;
 import com.ifeins.tenbis.fragments.TransactionsFragment;
@@ -23,6 +26,10 @@ import com.ifeins.tenbis.models.User;
 import com.ifeins.tenbis.services.TenbisMonitorService;
 import com.ifeins.tenbis.services.UsersService;
 import com.ifeins.tenbis.utils.MenuUtils;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final int ITEM_STATS = 0;
     private static final int ITEM_OVERVIEW = 1;
     private static final int ITEM_TRANSACTIONS = 2;
+    private static final int RC_SIGN_IN = 1;
 
     private BottomNavigationView mNavigationView;
     private ViewPager mViewPager;
@@ -48,7 +56,8 @@ public class HomeActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        mAdapter = new HomePageAdapter(getSupportFragmentManager());
+        List<Fragment> fragments = Arrays.asList(new StatsFragment(), new OverviewFragment(), new TransactionsFragment());
+        mAdapter = new HomePageAdapter(getSupportFragmentManager(), fragments);
         mViewPager = findViewById(R.id.home_view_pager);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(ITEM_OVERVIEW);
@@ -111,6 +120,21 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            User.setCurrentUser(new User(firebaseUser.getUid(), null, null));
+
+            for (int i = 0; i < mAdapter.getCount(); i++) {
+                HomeAdapterFragment fragment = (HomeAdapterFragment) mAdapter.getItem(i);
+                fragment.subscribeForUpdates();
+            }
+        }
+    }
+
     private void syncUserData() {
         UsersService usersService = TenbisMonitorService.getInstance().getUsersService();
         usersService.refresh(User.getCurrentUser()).enqueue(new Callback<Void>() {
@@ -126,39 +150,53 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void signOut() {
+    private void signOut() {
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            HomeAdapterFragment fragment = (HomeAdapterFragment) mAdapter.getItem(i);
+            fragment.unsubscribeForUpdates();
+        }
+
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener((task) -> {
-                    User.setCurrentUser(null);
-                    if (!task.isSuccessful()) {
+                    if (task.isSuccessful()) {
+                        User.setCurrentUser(null);
+                        showSignInDialog();
+                    } else {
                         Log.e(TAG, "signOut: Failed to sign out", task.getException());
                     }
                 });
     }
 
+    private void showSignInDialog() {
+        List<AuthUI.IdpConfig> providers = Collections.singletonList(
+                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
+        );
+
+        Intent intent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build();
+        startActivityForResult(intent, RC_SIGN_IN);
+    }
+
     public static class HomePageAdapter extends FragmentPagerAdapter {
 
-        public HomePageAdapter(FragmentManager fm) {
+        private final List<Fragment> mFragments;
+
+        public HomePageAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
+            mFragments = fragments;
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new StatsFragment();
-                case 1:
-                    return new OverviewFragment();
-                case 2:
-                    return new TransactionsFragment();
-            }
-            return null;
+            return mFragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return mFragments.size();
         }
     }
 
