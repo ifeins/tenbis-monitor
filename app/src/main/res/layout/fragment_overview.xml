@@ -3,7 +3,7 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             tools:context="com.ifeins.tenbis.fragments.OverviewFragment">
+                                             tools:context="com.ifeins.tenbismonit.fragments.OverviewFragment">
 
     <TextView
         android:layout_width="0dp"

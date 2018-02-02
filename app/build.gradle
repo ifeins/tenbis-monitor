@@ -15,7 +15,7 @@ buildscript {
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.ifeins.tenbis"
+        applicationId "com.ifeins.tenbismonit"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1

@@ -1,6 +1,6 @@
-package com.ifeins.tenbis.services;
+package com.ifeins.tenbismonit.services;
 
-import com.ifeins.tenbis.models.User;
+import com.ifeins.tenbismonit.models.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

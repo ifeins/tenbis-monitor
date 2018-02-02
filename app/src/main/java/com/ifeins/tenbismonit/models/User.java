@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.models;
+package com.ifeins.tenbismonit.models;
 
 import android.support.annotation.Nullable;
 

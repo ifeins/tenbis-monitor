@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.fragments;
+package com.ifeins.tenbismonit.fragments;
 
 
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ifeins.tenbis.R;
+import com.ifeins.tenbismonit.R;
 
 /**
  * A simple {@link Fragment} subclass.

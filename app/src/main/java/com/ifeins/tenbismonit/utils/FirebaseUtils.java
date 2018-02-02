@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.utils;
+package com.ifeins.tenbismonit.utils;
 
 import android.app.Activity;
 import android.content.Intent;

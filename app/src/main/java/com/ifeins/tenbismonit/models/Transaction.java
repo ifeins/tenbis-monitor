@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.models;
+package com.ifeins.tenbismonit.models;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;

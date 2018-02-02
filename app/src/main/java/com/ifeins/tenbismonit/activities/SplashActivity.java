@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.activities;
+package com.ifeins.tenbismonit.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.ifeins.tenbis.models.User;
-import com.ifeins.tenbis.utils.FirebaseUtils;
+import com.ifeins.tenbismonit.models.User;
+import com.ifeins.tenbismonit.utils.FirebaseUtils;
 
 public class SplashActivity extends AppCompatActivity {
 

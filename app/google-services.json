@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:908361550856:android:4702aa98a9fa6520",
+        "mobilesdk_app_id": "1:908361550856:android:33fe2fbea0141a1f",
         "android_client_info": {
-          "package_name": "com.ifeins.tenbis"
+          "package_name": "com.ifeins.tenbismonit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "908361550856-vj8vfla0b5puhn6lpciruqq9drrc8dnk.apps.googleusercontent.com",
+          "client_id": "908361550856-snmjul5af4t70348kcst4fevvp7n7n4u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ifeins.tenbis",
+            "package_name": "com.ifeins.tenbismonit",
             "certificate_hash": "dc957ab08753b8cef2683f1a9addafa3d7d27bb3"
           }
         },

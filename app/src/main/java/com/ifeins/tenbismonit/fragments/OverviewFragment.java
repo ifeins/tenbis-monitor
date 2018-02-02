@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.fragments;
+package com.ifeins.tenbismonit.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,8 +15,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.ifeins.tenbis.R;
-import com.ifeins.tenbis.utils.FirebaseUtils;
+import com.ifeins.tenbismonit.R;
+import com.ifeins.tenbismonit.utils.FirebaseUtils;
 
 /**
  * A simple {@link Fragment} subclass.

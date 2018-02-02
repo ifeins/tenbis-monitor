@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.activities;
+package com.ifeins.tenbismonit.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,16 +17,16 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.ifeins.tenbis.R;
-import com.ifeins.tenbis.fragments.HomeAdapterFragment;
-import com.ifeins.tenbis.fragments.OverviewFragment;
-import com.ifeins.tenbis.fragments.StatsFragment;
-import com.ifeins.tenbis.fragments.TransactionsFragment;
-import com.ifeins.tenbis.models.User;
-import com.ifeins.tenbis.services.TenbisMonitorService;
-import com.ifeins.tenbis.services.UsersService;
-import com.ifeins.tenbis.utils.FirebaseUtils;
-import com.ifeins.tenbis.utils.MenuUtils;
+import com.ifeins.tenbismonit.R;
+import com.ifeins.tenbismonit.fragments.HomeAdapterFragment;
+import com.ifeins.tenbismonit.fragments.OverviewFragment;
+import com.ifeins.tenbismonit.fragments.StatsFragment;
+import com.ifeins.tenbismonit.fragments.TransactionsFragment;
+import com.ifeins.tenbismonit.models.User;
+import com.ifeins.tenbismonit.services.TenbisMonitorService;
+import com.ifeins.tenbismonit.services.UsersService;
+import com.ifeins.tenbismonit.utils.FirebaseUtils;
+import com.ifeins.tenbismonit.utils.MenuUtils;
 
 import java.util.Arrays;
 import java.util.List;

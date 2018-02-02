@@ -1,4 +1,4 @@
-package com.ifeins.tenbis.activities;
+package com.ifeins.tenbismonit.activities;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.ifeins.tenbis.R;
-import com.ifeins.tenbis.models.User;
-import com.ifeins.tenbis.services.TenbisMonitorService;
+import com.ifeins.tenbismonit.R;
+import com.ifeins.tenbismonit.models.User;
+import com.ifeins.tenbismonit.services.TenbisMonitorService;
 
 import java.io.IOException;
 

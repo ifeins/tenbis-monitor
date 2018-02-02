@@ -1,4 +1,4 @@
-package com.ifeins.tenbis;
+package com.ifeins.tenbismonit;
 
 import android.app.Application;
 
