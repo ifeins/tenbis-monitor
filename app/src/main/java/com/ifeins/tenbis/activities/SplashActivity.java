@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
-import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ifeins.tenbis.models.User;
-
-import java.util.Collections;
-import java.util.List;
+import com.ifeins.tenbis.utils.FirebaseUtils;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -30,20 +27,8 @@ public class SplashActivity extends AppCompatActivity {
         if (user != null) {
             onUserLoggedIn(user);
         } else {
-            signIn();
+            FirebaseUtils.signIn(this, RC_SIGN_IN, true);
         }
-    }
-
-    private void signIn() {
-        List<AuthUI.IdpConfig> providers = Collections.singletonList(
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
-        );
-
-        Intent intent = AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build();
-        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     private void onUserLoggedIn(@NonNull FirebaseUser user) {

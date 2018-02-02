@@ -21,7 +21,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.ifeins.tenbis.R;
 import com.ifeins.tenbis.models.Transaction;
-import com.ifeins.tenbis.utils.FirestoreUtils;
+import com.ifeins.tenbis.utils.FirebaseUtils;
 
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -77,7 +77,7 @@ public class TransactionsFragment extends Fragment implements HomeAdapterFragmen
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
-        CollectionReference collectionReference = FirestoreUtils.getMonthlyTransactionsReference(user.getUid());
+        CollectionReference collectionReference = FirebaseUtils.getMonthlyTransactionsReference(user.getUid());
         mSnapshotListener = collectionReference.addSnapshotListener(getActivity(), (documentSnapshots, e) -> {
             if (e != null) {
                 Log.e(TAG, "subscribeForUpdates: error fetching transactions", e);

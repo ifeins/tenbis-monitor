@@ -25,10 +25,10 @@ import com.ifeins.tenbis.fragments.TransactionsFragment;
 import com.ifeins.tenbis.models.User;
 import com.ifeins.tenbis.services.TenbisMonitorService;
 import com.ifeins.tenbis.services.UsersService;
+import com.ifeins.tenbis.utils.FirebaseUtils;
 import com.ifeins.tenbis.utils.MenuUtils;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -162,23 +162,11 @@ public class HomeActivity extends AppCompatActivity {
                 .addOnCompleteListener((task) -> {
                     if (task.isSuccessful()) {
                         User.setCurrentUser(null);
-                        showSignInDialog();
+                        FirebaseUtils.signIn(this, RC_SIGN_IN, false);
                     } else {
                         Log.e(TAG, "signOut: Failed to sign out", task.getException());
                     }
                 });
-    }
-
-    private void showSignInDialog() {
-        List<AuthUI.IdpConfig> providers = Collections.singletonList(
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
-        );
-
-        Intent intent = AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build();
-        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     public static class HomePageAdapter extends FragmentPagerAdapter {

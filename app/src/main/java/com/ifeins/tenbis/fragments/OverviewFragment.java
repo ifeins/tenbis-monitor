@@ -16,7 +16,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.ifeins.tenbis.R;
-import com.ifeins.tenbis.utils.FirestoreUtils;
+import com.ifeins.tenbis.utils.FirebaseUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,7 +77,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
-        DocumentReference document = FirestoreUtils.getMonthlyReportReference(user.getUid());
+        DocumentReference document = FirebaseUtils.getMonthlyReportReference(user.getUid());
         mSnapshotListener = document.addSnapshotListener(getActivity(), (documentSnapshot, e) -> {
             if (e != null) {
                 Log.e(TAG, "subscribeForUpdates: Failed to fetch snapshot", e);
