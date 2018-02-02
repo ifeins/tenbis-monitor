@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.action_sign_out:
                 Toast.makeText(this, "Currently unsupported", Toast.LENGTH_SHORT).show();
 //                signOut();
-                return true;
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
