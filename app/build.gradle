@@ -37,6 +37,7 @@ android {
             useSupportLibrary = true
         }
         resConfigs "auto"
+        setProperty('archivesBaseName', 'tenbis-monitor')
     }
     buildTypes {
         release {
@@ -48,6 +49,11 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${archivesBaseName}-${variant.name}-${variant.versionName}.apk"
+        }
     }
 }
 
