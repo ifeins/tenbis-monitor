@@ -8,8 +8,8 @@
     tools:context="com.ifeins.tenbismonit.activities.SignUpActivity">
 
     <ImageView
-        android:layout_width="88dp"
-        android:layout_height="95dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         app:srcCompat="@drawable/ic_account_circle_black_24dp"
         android:id="@+id/image_view_profile"
         app:layout_constraintStart_toStartOf="parent"
