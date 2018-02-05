@@ -113,7 +113,7 @@ public class HomeActivity extends AppCompatActivity {
                 syncUserData();
                 return true;
             case R.id.action_sign_out:
-                Toast.makeText(this, "Currently unsupported", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Sign out is currently unsupported", Toast.LENGTH_SHORT).show();
 //                signOut();
 //                return true;
             default:

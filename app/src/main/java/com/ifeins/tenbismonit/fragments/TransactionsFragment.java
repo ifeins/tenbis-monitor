@@ -1,5 +1,6 @@
 package com.ifeins.tenbismonit.fragments;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -111,10 +112,10 @@ public class TransactionsFragment extends Fragment implements HomeAdapterFragmen
             mDateView = itemView.findViewById(R.id.date_view);
         }
 
-        public void bind(@NonNull Transaction transaction) {
+        public void bind(@NonNull Transaction transaction, @NonNull Resources res) {
             mImageView.setImageURI(Uri.parse(transaction.getRestaurantLogoUrl()));
             mNameView.setText(transaction.getRestaurantName());
-            mAmountView.setText(String.format(Locale.getDefault(), "%.2f", transaction.getAmount()));
+            mAmountView.setText(res.getString(R.string.transaction_amount, transaction.getAmount()));
             mDateView.setText(transaction.getDate().format(DateTimeFormatter.ofPattern("LLL d, yyyy")));
         }
     }
@@ -129,7 +130,7 @@ public class TransactionsFragment extends Fragment implements HomeAdapterFragmen
 
         @Override
         public void onBindViewHolder(TransactionViewHolder holder, int position) {
-            holder.bind(mTransactions.get(position));
+            holder.bind(mTransactions.get(position), getResources());
         }
 
         @Override
