@@ -73,4 +73,18 @@
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/total_spent_view"/>
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        tools:text="Remaining avg. lunch spending: 22.50"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/remaining_average_lunch_view"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/average_lunch_view"/>
+
 </android.support.constraint.ConstraintLayout>

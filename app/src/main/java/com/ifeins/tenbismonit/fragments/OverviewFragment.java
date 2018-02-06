@@ -29,6 +29,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     private TextView mLunchesView;
     private TextView mTotalSpentView;
     private TextView mAverageLunchView;
+    private TextView mRemainingAverageLunchView;
     @Nullable
     private ListenerRegistration mSnapshotListener;
 
@@ -50,6 +51,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mLunchesView = view.findViewById(R.id.lunches_view);
         mTotalSpentView = view.findViewById(R.id.total_spent_view);
         mAverageLunchView = view.findViewById(R.id.average_lunch_view);
+        mRemainingAverageLunchView = view.findViewById(R.id.remaining_average_lunch_view);
     }
 
     @Override
@@ -70,6 +72,8 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
                 document.get("totalSpent")));
         mAverageLunchView.setText(getString(R.string.average_lunch_spending,
                 document.get("averageLunchSpending")));
+        mRemainingAverageLunchView.setText(getString(R.string.remaining_average_lunch_spending,
+                document.get("remainingAverageLunchSpending")));
     }
 
     @Override
