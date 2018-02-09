@@ -43,16 +43,22 @@ public class HomeActivity extends AppCompatActivity {
     private static final int ITEM_OVERVIEW = 1;
     private static final int ITEM_TRANSACTIONS = 2;
     private static final int RC_SIGN_IN = 1;
+    private static final String STATE_DURING_SYNC = "state_during_sync";
 
     private BottomNavigationView mNavigationView;
     private ViewPager mViewPager;
     private HomePageAdapter mAdapter;
     private Toolbar mToolbar;
     private Menu mMenu;
+    private boolean mDuringSync;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mDuringSync = savedInstanceState.getBoolean(STATE_DURING_SYNC);
+        }
+
         setContentView(R.layout.activity_home);
 
         mToolbar = findViewById(R.id.toolbar);
@@ -100,6 +106,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_DURING_SYNC, mDuringSync);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home_actionbar, menu);
         mMenu = menu;
@@ -110,6 +122,9 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sync:
+                if (mDuringSync) return true;
+
+                mDuringSync = true;
                 Drawable drawable = item.getIcon();
                 if (drawable instanceof Animatable) {
                     ((Animatable) drawable).start();
@@ -150,6 +165,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (drawable instanceof Animatable) {
                     ((Animatable) drawable).stop();
                 }
+                mDuringSync = false;
             }
 
             @Override
@@ -159,6 +175,8 @@ public class HomeActivity extends AppCompatActivity {
                 if (drawable instanceof Animatable) {
                     ((Animatable) drawable).stop();
                 }
+
+                mDuringSync = false;
             }
         });
     }
