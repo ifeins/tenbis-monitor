@@ -6,7 +6,7 @@
                                              tools:context="com.ifeins.tenbismonit.fragments.OverviewFragment">
 
     <ImageView
-        app:srcCompat="@drawable/ic_assignment_black_24dp"
+        app:srcCompat="@drawable/ic_assignment"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:id="@+id/imageView"

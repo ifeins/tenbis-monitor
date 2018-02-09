@@ -8,13 +8,13 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:layout_width="48dp"
         android:layout_height="48dp"
-        app:srcCompat="@drawable/ic_photo_black_24dp"
+        app:srcCompat="@drawable/ic_logo_placeholder"
         android:id="@+id/image_view"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:placeholderImage="@drawable/ic_photo_black_24dp"/>
+        app:placeholderImage="@drawable/ic_logo_placeholder"/>
 
     <TextView
         android:layout_width="wrap_content"
