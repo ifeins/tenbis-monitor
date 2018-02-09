@@ -4,10 +4,14 @@
 
     <item
         android:id="@+id/action_sync"
-        android:icon="@drawable/ic_sync_black_24dp"
-        app:showAsAction="always"/>
+        android:title="@string/menu_item_sync"
+        android:icon="@drawable/ic_sync"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_sign_out"
-        android:icon="@drawable/ic_sign_out_black_24dp"
-        app:showAsAction="always"/>
+        android:title="@string/menu_item_sign_out"
+        android:icon="@drawable/ic_sign_out"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"/>
 </menu>

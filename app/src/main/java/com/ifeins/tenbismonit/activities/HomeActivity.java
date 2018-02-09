@@ -1,6 +1,8 @@
 package com.ifeins.tenbismonit.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -26,7 +28,6 @@ import com.ifeins.tenbismonit.models.User;
 import com.ifeins.tenbismonit.services.TenbisMonitorService;
 import com.ifeins.tenbismonit.services.UsersService;
 import com.ifeins.tenbismonit.utils.FirebaseUtils;
-import com.ifeins.tenbismonit.utils.MenuUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private HomePageAdapter mAdapter;
     private Toolbar mToolbar;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +102,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home_actionbar, menu);
-        MenuUtils.tintMenuItemDrawable(this, menu, R.id.action_sync, android.R.color.white);
-        MenuUtils.tintMenuItemDrawable(this, menu, R.id.action_sign_out, android.R.color.white);
-
+        mMenu = menu;
         return true;
     }
 
@@ -110,6 +110,10 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sync:
+                Drawable drawable = item.getIcon();
+                if (drawable instanceof Animatable) {
+                    ((Animatable) drawable).start();
+                }
                 syncUserData();
                 return true;
             case R.id.action_sign_out:
@@ -142,11 +146,19 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 // don't need to do anything as firestore will automatically take care of refreshing data
+                Drawable drawable = mMenu.findItem(R.id.action_sync).getIcon();
+                if (drawable instanceof Animatable) {
+                    ((Animatable) drawable).stop();
+                }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Drawable drawable = mMenu.findItem(R.id.action_sync).getIcon();
+                if (drawable instanceof Animatable) {
+                    ((Animatable) drawable).stop();
+                }
             }
         });
     }
