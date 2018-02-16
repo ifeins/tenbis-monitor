@@ -110,10 +110,12 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean validateInputLayout(@NonNull TextInputLayout inputLayout, @StringRes int errorResId) {
         if (TextUtils.isEmpty(inputLayout.getEditText().getText().toString())) {
             inputLayout.setError(getString(errorResId));
+            inputLayout.setErrorEnabled(true);
             return false;
         }
 
         inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
         return true;
     }
 }
