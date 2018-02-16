@@ -2,14 +2,10 @@ package com.ifeins.tenbismonit.activities;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -99,7 +95,10 @@ public class SignUpActivity extends AppCompatActivity {
         UiUtils.setClickableLink(mSignUpNoticeView, getString(R.string.sign_up_notice), new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                // TODO: show a dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                builder.setMessage(R.string.secure_credentials_message);
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }

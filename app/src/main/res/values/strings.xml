@@ -16,5 +16,6 @@
     <string name="coming_soon">Coming soon!</string>
     <string name="menu_item_sync">Sync</string>
     <string name="menu_item_sign_out">Sign out</string>
-    <string name="sign_up_notice"><![CDATA[Sign up with your 10Bis credentials. 10Bis Monitor securely stores your credentials. <a>Learn more</a>]]></string>
+    <string name="sign_up_notice"><![CDATA[Sign up with your 10Bis credentials. 10Bis Monitor does not store your credentials. <a>Learn more</a>]]></string>
+    <string name="secure_credentials_message">10Bis Monitor sends your credentials to the server over a secure connection and stores only a generated API key used to fetch transactions on your behalf.</string>
 </resources>
