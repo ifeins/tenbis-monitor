@@ -16,4 +16,5 @@
     <string name="coming_soon">Coming soon!</string>
     <string name="menu_item_sync">Sync</string>
     <string name="menu_item_sign_out">Sign out</string>
+    <string name="sign_up_notice"><![CDATA[Sign up with your 10Bis credentials. 10Bis Monitor securely stores your credentials. <a>Learn more</a>]]></string>
 </resources>
