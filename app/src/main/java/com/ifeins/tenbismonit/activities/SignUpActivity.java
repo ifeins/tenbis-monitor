@@ -1,7 +1,10 @@
 package com.ifeins.tenbismonit.activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,13 +34,17 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mEmailView;
     private EditText mPasswordView;
     private TextView mSignUpNoticeView;
+    private TextInputLayout mEmailInputLayout;
+    private TextInputLayout mPasswordInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        mEmailInputLayout = findViewById(R.id.input_layout_email);
         mEmailView = findViewById(R.id.input_email);
+        mPasswordInputLayout = findViewById(R.id.input_layout_password);
         mPasswordView = findViewById(R.id.input_password);
         mPasswordView.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_DONE) {
@@ -53,20 +60,13 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onSignUp(@Nullable View view) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
 
-        boolean valid = true;
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError("You must provide an email");
-            valid = false;
-        }
-        if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError("You must provide a password");
-            valid = false;
-        }
+        boolean valid = validateInputLayout(mEmailInputLayout, R.string.missing_email_error);
+        valid = validateInputLayout(mPasswordInputLayout, R.string.missing_password_error) && valid;
         if (!valid) return;
 
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
         User user = new User(currentUser.getUid(), email, password);
         TenbisMonitorService.getInstance().getUsersService().create(user).enqueue(new Callback<Void>() {
             @Override
@@ -105,6 +105,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    }
+
+    private boolean validateInputLayout(@NonNull TextInputLayout inputLayout, @StringRes int errorResId) {
+        if (TextUtils.isEmpty(inputLayout.getEditText().getText().toString())) {
+            inputLayout.setError(getString(errorResId));
+            return false;
+        }
+
+        inputLayout.setError(null);
+        return true;
     }
 }
 
