@@ -12,7 +12,9 @@ import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,14 +33,16 @@ import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText mEmailView;
-    private EditText mPasswordView;
     private TextView mSignUpNoticeView;
     private TextInputLayout mEmailInputLayout;
+    private EditText mEmailView;
     private TextInputLayout mPasswordInputLayout;
+    private EditText mPasswordView;
+    private Button mSignUpButton;
+    private ProgressBar mProgressBarView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {    
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -54,6 +58,8 @@ public class SignUpActivity extends AppCompatActivity {
             return false;
         });
         mSignUpNoticeView = findViewById(R.id.text_view_sign_up_notice);
+        mProgressBarView = findViewById(R.id.progress_sign_up);
+        mSignUpButton = findViewById(R.id.btn_sign_up);
 
         setUpSignUpNotice();
     }
@@ -68,9 +74,13 @@ public class SignUpActivity extends AppCompatActivity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         User user = new User(currentUser.getUid(), email, password);
+        mProgressBarView.setVisibility(View.VISIBLE);
+        mSignUpButton.setEnabled(false);
         TenbisMonitorService.getInstance().getUsersService().create(user).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                mProgressBarView.setVisibility(View.INVISIBLE);
+                mSignUpButton.setEnabled(true);
                 if (response.isSuccessful()) {
                     User.setCurrentUser(user);
                     startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
@@ -86,6 +96,8 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                mProgressBarView.setVisibility(View.INVISIBLE);
+                mSignUpButton.setEnabled(true);
                 showError(t.getMessage());
             }
         });
