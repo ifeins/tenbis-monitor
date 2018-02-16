@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
             return false;
         });
-        mSignUpNoticeView = findViewById(R.id.text_view_sign_up);
+        mSignUpNoticeView = findViewById(R.id.text_view_sign_up_notice);
 
         setUpSignUpNotice();
     }
