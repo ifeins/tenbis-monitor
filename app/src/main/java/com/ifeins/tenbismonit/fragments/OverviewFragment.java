@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.ifeins.tenbismonit.R;
+import com.ifeins.tenbismonit.activities.HomeActivity;
 import com.ifeins.tenbismonit.utils.FirebaseUtils;
 
 /**
@@ -30,8 +33,11 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     private TextView mTotalSpentView;
     private TextView mAverageLunchView;
     private TextView mRemainingAverageLunchView;
+    private ProgressBar mProgressBarView;
+    private TextView mProgressCaptionView;
     @Nullable
     private ListenerRegistration mSnapshotListener;
+    private ImageView mImageView;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -47,11 +53,14 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mImageView = view.findViewById(R.id.overview_image);
         mBudgetView = view.findViewById(R.id.budget_view);
         mLunchesView = view.findViewById(R.id.lunches_view);
         mTotalSpentView = view.findViewById(R.id.total_spent_view);
         mAverageLunchView = view.findViewById(R.id.average_lunch_view);
         mRemainingAverageLunchView = view.findViewById(R.id.remaining_average_lunch_view);
+        mProgressBarView = view.findViewById(R.id.progress_bar);
+        mProgressCaptionView = view.findViewById(R.id.progress_bar_caption);
     }
 
     @Override
@@ -62,7 +71,27 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     }
 
     private void updateUI(@Nullable DocumentSnapshot document) {
-        if (document == null || !document.exists()) return;
+        if (document == null || !document.exists()) {
+            mProgressBarView.setVisibility(View.VISIBLE);
+            mProgressCaptionView.setVisibility(View.VISIBLE);
+            mImageView.setVisibility(View.GONE);
+            mBudgetView.setVisibility(View.GONE);
+            mLunchesView.setVisibility(View.GONE);
+            mTotalSpentView.setVisibility(View.GONE);
+            mAverageLunchView.setVisibility(View.GONE);
+            mRemainingAverageLunchView.setVisibility(View.GONE);
+            ((HomeActivity) getActivity()).syncUserData();
+            return;
+        }
+
+        mProgressBarView.setVisibility(View.GONE);
+        mProgressCaptionView.setVisibility(View.GONE);
+        mImageView.setVisibility(View.VISIBLE);
+        mBudgetView.setVisibility(View.VISIBLE);
+        mLunchesView.setVisibility(View.VISIBLE);
+        mTotalSpentView.setVisibility(View.VISIBLE);
+        mAverageLunchView.setVisibility(View.VISIBLE);
+        mRemainingAverageLunchView.setVisibility(View.VISIBLE);
 
         mBudgetView.setText(getString(R.string.remaining_budget,
                 document.get("remainingMonthlyLunchBudget"), document.get("monthlyLunchBudget")));

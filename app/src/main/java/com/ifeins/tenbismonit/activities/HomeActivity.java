@@ -122,13 +122,6 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sync:
-                if (mDuringSync) return true;
-
-                mDuringSync = true;
-                Drawable drawable = item.getIcon();
-                if (drawable instanceof Animatable) {
-                    ((Animatable) drawable).start();
-                }
                 syncUserData();
                 return true;
             case R.id.action_sign_out:
@@ -155,7 +148,15 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void syncUserData() {
+    public void syncUserData() {
+        if (mDuringSync) return;
+
+        mDuringSync = true;
+        Drawable drawable = mMenu.findItem(R.id.action_sync).getIcon();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
+
         UsersService usersService = TenbisMonitorService.getInstance().getUsersService();
         usersService.refresh(User.getCurrentUser()).enqueue(new Callback<Void>() {
             @Override
