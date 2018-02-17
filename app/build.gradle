@@ -30,8 +30,8 @@ android {
         applicationId "com.ifeins.tenbismonit"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 190000600
-        versionName "0.6.0"
+        versionCode 190000700
+        versionName "0.7.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
