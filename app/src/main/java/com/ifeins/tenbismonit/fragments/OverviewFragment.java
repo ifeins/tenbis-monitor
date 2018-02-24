@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,9 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.ifeins.tenbismonit.R;
 import com.ifeins.tenbismonit.activities.HomeActivity;
 import com.ifeins.tenbismonit.utils.FirebaseUtils;
+
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +42,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     @Nullable
     private ListenerRegistration mSnapshotListener;
     private ImageView mImageView;
+    private TextView mLastUpdateView;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mRemainingAverageLunchView = view.findViewById(R.id.remaining_average_lunch_view);
         mProgressBarView = view.findViewById(R.id.progress_bar);
         mProgressCaptionView = view.findViewById(R.id.progress_bar_caption);
+        mLastUpdateView = view.findViewById(R.id.last_update_view);
     }
 
     @Override
@@ -80,9 +86,12 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
             mTotalSpentView.setVisibility(View.GONE);
             mAverageLunchView.setVisibility(View.GONE);
             mRemainingAverageLunchView.setVisibility(View.GONE);
+            mLastUpdateView.setVisibility(View.GONE);
             ((HomeActivity) getActivity()).syncUserData();
             return;
         }
+
+        String updatedAt = document.getString("updatedAt");
 
         mProgressBarView.setVisibility(View.GONE);
         mProgressCaptionView.setVisibility(View.GONE);
@@ -92,6 +101,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mTotalSpentView.setVisibility(View.VISIBLE);
         mAverageLunchView.setVisibility(View.VISIBLE);
         mRemainingAverageLunchView.setVisibility(View.VISIBLE);
+        mLastUpdateView.setVisibility(TextUtils.isEmpty(updatedAt) ? View.GONE : View.VISIBLE);
 
         mBudgetView.setText(getString(R.string.remaining_budget,
                 document.get("remainingMonthlyLunchBudget"), document.get("monthlyLunchBudget")));
@@ -103,6 +113,13 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
                 document.get("averageLunchSpending")));
         mRemainingAverageLunchView.setText(getString(R.string.remaining_average_lunch_spending,
                 document.get("remainingAverageLunchSpending")));
+
+        if (TextUtils.isEmpty(updatedAt)) {
+            mLastUpdateView.setText(null);
+        } else {
+            LocalDateTime time = LocalDateTime.parse(updatedAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            mLastUpdateView.setText(getString(R.string.last_update_at, time.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))));
+        }
     }
 
     @Override

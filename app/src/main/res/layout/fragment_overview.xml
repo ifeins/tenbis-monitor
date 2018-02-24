@@ -113,4 +113,17 @@
         android:visibility="visible"
         />
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/last_update_view"
+        tools:text="Last update at 22-02-2018 17:00"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/remaining_average_lunch_view"/>
+
 </android.support.constraint.ConstraintLayout>

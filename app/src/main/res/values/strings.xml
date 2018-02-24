@@ -9,6 +9,7 @@
     <string name="total_spent">Total spent: ₪%1$s</string>
     <string name="average_lunch_spending">Average lunch spending: ₪%1$s</string>
     <string name="remaining_average_lunch_spending">Remaining avg. lunch spending: ₪%1$s</string>
+    <string name="last_update_at">Last update at %1$s</string>
     <string name="transaction_amount">₪%1$.2f</string>
     <string name="navigation_action_stats">Stats</string>
     <string name="navigation_action_overview">Overview</string>
