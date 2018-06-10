@@ -11,6 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TenbisMonitorService {
 
+    public static final String ERROR_CODE_NO_10BIS_ID = "NO_10BIS_ID";
+
     private static final String BASE_URL = "https://us-central1-tenbis-monitor.cloudfunctions.net";
 
     private static TenbisMonitorService sInstance = new TenbisMonitorService();

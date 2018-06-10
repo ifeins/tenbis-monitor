@@ -31,6 +31,9 @@ import com.ifeins.tenbismonit.services.TenbisMonitorService;
 import com.ifeins.tenbismonit.services.UsersService;
 import com.ifeins.tenbismonit.utils.FirebaseUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -202,6 +205,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void onRefreshError(@Nullable String errorMessage) {
+        JSONObject json = extractJson(errorMessage);
+        if (json != null && TenbisMonitorService.ERROR_CODE_NO_10BIS_ID.equals(json.optString("code"))) {
+            Intent intent = new Intent(this, SignUpActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return;
+        }
+
         if (!TextUtils.isEmpty(errorMessage)) {
             Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
         }
@@ -209,6 +220,19 @@ public class HomeActivity extends AppCompatActivity {
             HomeAdapterFragment fragment = (HomeAdapterFragment) mAdapter.getItem(i);
             fragment.onRefreshError();
         }
+    }
+
+    @Nullable
+    private JSONObject extractJson(@Nullable String errorMessage) {
+        if (errorMessage != null) {
+            try {
+                return new JSONObject(errorMessage);
+            } catch (JSONException e) {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     private void signOut() {
