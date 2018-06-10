@@ -31,6 +31,7 @@ import com.ifeins.tenbismonit.services.TenbisMonitorService;
 import com.ifeins.tenbismonit.services.UsersService;
 import com.ifeins.tenbismonit.utils.FirebaseUtils;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -174,7 +175,16 @@ public class HomeActivity extends AppCompatActivity {
                 mDuringSync = false;
 
                 if (!response.isSuccessful()) {
-                    onRefreshError(response.message());
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorMessage = response.errorBody().string();
+                            onRefreshError(errorMessage);
+                        } else {
+                            onRefreshError(null);
+                        }
+                    } catch (IOException e) {
+                        onRefreshError(e.getMessage());
+                    }
                 }
             }
 

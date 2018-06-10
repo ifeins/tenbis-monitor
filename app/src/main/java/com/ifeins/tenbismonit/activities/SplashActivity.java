@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.IdpResponse;
@@ -35,7 +36,11 @@ public class SplashActivity extends AppCompatActivity {
 
     private void onUserLoggedIn(@NonNull FirebaseUser user) {
         mUsersRef.document(user.getUid()).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+            if (task.isSuccessful() &&
+                    task.getResult() != null &&
+                    task.getResult().exists() &&
+                    !TextUtils.isEmpty(task.getResult().getString("tenbisUid"))) {
+
                 User.setCurrentUser(new User(user.getUid(), null, null));
                 showOverallStatsPage();
             } else {
