@@ -125,9 +125,8 @@ public class HomeActivity extends AppCompatActivity {
                 syncUserData();
                 return true;
             case R.id.action_sign_out:
-                Toast.makeText(this, "Sign out is currently unsupported", Toast.LENGTH_SHORT).show();
-//                signOut();
-//                return true;
+                signOut();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -138,12 +137,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
-            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            User.setCurrentUser(new User(firebaseUser.getUid(), null, null));
+            if (resultCode == RESULT_OK) {
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                User.setCurrentUser(new User(firebaseUser.getUid(), null, null));
 
-            for (int i = 0; i < mAdapter.getCount(); i++) {
-                HomeAdapterFragment fragment = (HomeAdapterFragment) mAdapter.getItem(i);
-                fragment.subscribeForUpdates();
+                for (int i = 0; i < mAdapter.getCount(); i++) {
+                    HomeAdapterFragment fragment = (HomeAdapterFragment) mAdapter.getItem(i);
+                    fragment.subscribeForUpdates();
+                }
+            } else {
+                finishAffinity(); // user didn't pick any other user so we close the app
             }
         }
     }
