@@ -21,16 +21,30 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        tools:text="Today's budget: 22.50"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/today_budget_view"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/overview_image"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:id="@+id/budget_view"
         tools:text="Remaining budget: 120 / 920"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/overview_image"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        app:layout_constraintHorizontal_bias="0.0"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/today_budget_view"
+        android:layout_marginTop="16dp"/>
 
     <TextView
         android:layout_width="0dp"
@@ -42,7 +56,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/budget_view"
+        app:layout_constraintTop_toBottomOf="@id/budget_view"
         android:id="@+id/lunches_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
@@ -73,21 +87,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/total_spent_view"/>
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="16dp"
-        tools:text="Remaining avg. lunch spending: 22.50"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:id="@+id/remaining_average_lunch_view"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/average_lunch_view"/>
-
 
     <TextView
         android:text="@string/fetching_data_message"
@@ -124,6 +123,6 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/remaining_average_lunch_view"/>
+        app:layout_constraintTop_toBottomOf="@id/average_lunch_view"/>
 
 </android.support.constraint.ConstraintLayout>

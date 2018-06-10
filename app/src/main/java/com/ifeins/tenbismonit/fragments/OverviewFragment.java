@@ -36,7 +36,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     private TextView mLunchesView;
     private TextView mTotalSpentView;
     private TextView mAverageLunchView;
-    private TextView mRemainingAverageLunchView;
+    private TextView mTodayBudgetView;
     private ProgressBar mProgressBarView;
     private TextView mProgressCaptionView;
     @Nullable
@@ -63,7 +63,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mLunchesView = view.findViewById(R.id.lunches_view);
         mTotalSpentView = view.findViewById(R.id.total_spent_view);
         mAverageLunchView = view.findViewById(R.id.average_lunch_view);
-        mRemainingAverageLunchView = view.findViewById(R.id.remaining_average_lunch_view);
+        mTodayBudgetView = view.findViewById(R.id.today_budget_view);
         mProgressBarView = view.findViewById(R.id.progress_bar);
         mProgressCaptionView = view.findViewById(R.id.progress_bar_caption);
         mLastUpdateView = view.findViewById(R.id.last_update_view);
@@ -85,7 +85,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
             mLunchesView.setVisibility(View.GONE);
             mTotalSpentView.setVisibility(View.GONE);
             mAverageLunchView.setVisibility(View.GONE);
-            mRemainingAverageLunchView.setVisibility(View.GONE);
+            mTodayBudgetView.setVisibility(View.GONE);
             mLastUpdateView.setVisibility(View.GONE);
             ((HomeActivity) getActivity()).syncUserData();
             return;
@@ -100,7 +100,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mLunchesView.setVisibility(View.VISIBLE);
         mTotalSpentView.setVisibility(View.VISIBLE);
         mAverageLunchView.setVisibility(View.VISIBLE);
-        mRemainingAverageLunchView.setVisibility(View.VISIBLE);
+        mTodayBudgetView.setVisibility(View.VISIBLE);
         mLastUpdateView.setVisibility(TextUtils.isEmpty(updatedAt) ? View.GONE : View.VISIBLE);
 
         mBudgetView.setText(getString(R.string.remaining_budget,
@@ -111,8 +111,8 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
                 document.get("totalSpent")));
         mAverageLunchView.setText(getString(R.string.average_lunch_spending,
                 document.get("averageLunchSpending")));
-        mRemainingAverageLunchView.setText(getString(R.string.remaining_average_lunch_spending,
-                document.get("remainingAverageLunchSpending")));
+        mTodayBudgetView.setText(getString(R.string.today_budget,
+                document.get("todayBudget")));
 
         if (TextUtils.isEmpty(updatedAt)) {
             mLastUpdateView.setText(null);
