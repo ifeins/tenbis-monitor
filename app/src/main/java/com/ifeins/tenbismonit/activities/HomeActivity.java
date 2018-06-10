@@ -208,7 +208,7 @@ public class HomeActivity extends AppCompatActivity {
         JSONObject json = extractJson(errorMessage);
         if (json != null && TenbisMonitorService.ERROR_CODE_NO_10BIS_ID.equals(json.optString("code"))) {
             Intent intent = new Intent(this, SignUpActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return;
         }
