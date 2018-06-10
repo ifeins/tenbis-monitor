@@ -23,4 +23,5 @@
     <string name="missing_email_error">You must provide an email</string>
     <string name="missing_password_error">You must provide a password</string>
     <string name="fetching_data_message">Fetching data</string>
+    <string name="refresh_error">Encountered error during refresh</string>
 </resources>

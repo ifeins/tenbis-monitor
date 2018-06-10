@@ -36,4 +36,9 @@ public class StatsFragment extends Fragment implements HomeAdapterFragment {
     public void unsubscribeForUpdates() {
 
     }
+
+    @Override
+    public void onRefreshError() {
+
+    }
 }

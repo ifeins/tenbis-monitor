@@ -9,4 +9,6 @@ public interface HomeAdapterFragment {
     void subscribeForUpdates();
 
     void unsubscribeForUpdates();
+
+    void onRefreshError();
 }

@@ -95,6 +95,11 @@ public class TransactionsFragment extends Fragment implements HomeAdapterFragmen
         }
     }
 
+    @Override
+    public void onRefreshError() {
+
+    }
+
     private static class TransactionViewHolder extends RecyclerView.ViewHolder {
 
         private final SimpleDraweeView mImageView;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -170,19 +172,33 @@ public class HomeActivity extends AppCompatActivity {
                     ((Animatable) drawable).stop();
                 }
                 mDuringSync = false;
+
+                if (!response.isSuccessful()) {
+                    onRefreshError(response.message());
+                }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 Drawable drawable = mMenu.findItem(R.id.action_sync).getIcon();
                 if (drawable instanceof Animatable) {
                     ((Animatable) drawable).stop();
                 }
 
                 mDuringSync = false;
+                onRefreshError(t.getMessage());
             }
         });
+    }
+
+    private void onRefreshError(@Nullable String errorMessage) {
+        if (!TextUtils.isEmpty(errorMessage)) {
+            Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            HomeAdapterFragment fragment = (HomeAdapterFragment) mAdapter.getItem(i);
+            fragment.onRefreshError();
+        }
     }
 
     private void signOut() {

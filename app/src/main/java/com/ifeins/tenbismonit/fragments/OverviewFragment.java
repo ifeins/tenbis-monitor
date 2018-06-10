@@ -43,6 +43,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     private ListenerRegistration mSnapshotListener;
     private ImageView mImageView;
     private TextView mLastUpdateView;
+    private TextView mErrorView;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -67,6 +68,7 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mProgressBarView = view.findViewById(R.id.progress_bar);
         mProgressCaptionView = view.findViewById(R.id.progress_bar_caption);
         mLastUpdateView = view.findViewById(R.id.last_update_view);
+        mErrorView = view.findViewById(R.id.error_view);
     }
 
     @Override
@@ -77,6 +79,8 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     }
 
     private void updateUI(@Nullable DocumentSnapshot document) {
+        mErrorView.setVisibility(View.GONE);
+
         if (document == null || !document.exists()) {
             mProgressBarView.setVisibility(View.VISIBLE);
             mProgressCaptionView.setVisibility(View.VISIBLE);
@@ -142,5 +146,12 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         if (mSnapshotListener != null) {
             mSnapshotListener.remove();
         }
+    }
+
+    @Override
+    public void onRefreshError() {
+        mProgressBarView.setVisibility(View.GONE);
+        mProgressCaptionView.setVisibility(View.GONE);
+        mErrorView.setVisibility(View.VISIBLE);
     }
 }
