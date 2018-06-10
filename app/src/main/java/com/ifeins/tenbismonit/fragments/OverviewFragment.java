@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -129,10 +130,11 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     @Override
     public void subscribeForUpdates() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
+        FragmentActivity activity = getActivity();
+        if (user == null || activity == null) return;
 
         DocumentReference document = FirebaseUtils.getMonthlyReportReference(user.getUid());
-        mSnapshotListener = document.addSnapshotListener(getActivity(), (documentSnapshot, e) -> {
+        mSnapshotListener = document.addSnapshotListener(activity, (documentSnapshot, e) -> {
             if (e != null) {
                 Log.e(TAG, "subscribeForUpdates: Failed to fetch snapshot", e);
             } else {
