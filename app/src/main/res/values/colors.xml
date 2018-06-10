@@ -8,4 +8,14 @@
   <color name="secondaryDarkColor">#c30000</color>
   <color name="primaryTextColor">#DF000000</color>
   <color name="secondaryTextColor">#8A000000</color>
+
+  <!--Card backgrounds-->
+  <array name="cardBackgrounds">
+    <item>#9C27B0</item>
+    <item>#2196F3</item>
+    <item>#8BC34A</item>
+    <item>#FF9800</item>
+    <item>#FF7043</item>
+  </array>
+
 </resources>
