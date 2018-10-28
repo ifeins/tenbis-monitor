@@ -5,12 +5,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,10 +27,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.ifeins.tenbismonit.R;
 import com.ifeins.tenbismonit.activities.HomeActivity;
+import com.ifeins.tenbismonit.adapters.OverviewAdapter;
+import com.ifeins.tenbismonit.models.CardData;
 import com.ifeins.tenbismonit.utils.FirebaseUtils;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,18 +43,15 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
 
     private static final String TAG = "OverviewFragment";
 
-    private TextView mBudgetView;
-    private TextView mLunchesView;
-    private TextView mTotalSpentView;
-    private TextView mAverageLunchView;
-    private TextView mTodayBudgetView;
+    private RecyclerView mRecyclerView;
     private ProgressBar mProgressBarView;
     private TextView mProgressCaptionView;
     @Nullable
     private ListenerRegistration mSnapshotListener;
-    private ImageView mImageView;
     private TextView mLastUpdateView;
     private TextView mErrorView;
+    private GridLayoutManager mLayoutManager;
+    private OverviewAdapter mAdapter;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -60,16 +67,24 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mImageView = view.findViewById(R.id.overview_image);
-        mBudgetView = view.findViewById(R.id.budget_view);
-        mLunchesView = view.findViewById(R.id.lunches_view);
-        mTotalSpentView = view.findViewById(R.id.total_spent_view);
-        mAverageLunchView = view.findViewById(R.id.average_lunch_view);
-        mTodayBudgetView = view.findViewById(R.id.today_budget_view);
         mProgressBarView = view.findViewById(R.id.progress_bar);
         mProgressCaptionView = view.findViewById(R.id.progress_bar_caption);
         mLastUpdateView = view.findViewById(R.id.last_update_view);
         mErrorView = view.findViewById(R.id.error_view);
+        mRecyclerView = view.findViewById(R.id.overview_grid);
+
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new GridLayoutManager(getContext(), 2);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? 2 : 1;
+            }
+        });
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new OverviewAdapter();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -83,41 +98,36 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mErrorView.setVisibility(View.GONE);
 
         if (document == null || !document.exists()) {
+            mRecyclerView.setVisibility(View.GONE);
             mProgressBarView.setVisibility(View.VISIBLE);
             mProgressCaptionView.setVisibility(View.VISIBLE);
-            mImageView.setVisibility(View.GONE);
-            mBudgetView.setVisibility(View.GONE);
-            mLunchesView.setVisibility(View.GONE);
-            mTotalSpentView.setVisibility(View.GONE);
-            mAverageLunchView.setVisibility(View.GONE);
-            mTodayBudgetView.setVisibility(View.GONE);
-            mLastUpdateView.setVisibility(View.GONE);
             ((HomeActivity) getActivity()).syncUserData();
             return;
         }
 
         String updatedAt = document.getString("updatedAt");
 
+        mRecyclerView.setVisibility(View.VISIBLE);
         mProgressBarView.setVisibility(View.GONE);
         mProgressCaptionView.setVisibility(View.GONE);
-        mImageView.setVisibility(View.VISIBLE);
-        mBudgetView.setVisibility(View.VISIBLE);
-        mLunchesView.setVisibility(View.VISIBLE);
-        mTotalSpentView.setVisibility(View.VISIBLE);
-        mAverageLunchView.setVisibility(View.VISIBLE);
-        mTodayBudgetView.setVisibility(View.VISIBLE);
-        mLastUpdateView.setVisibility(TextUtils.isEmpty(updatedAt) ? View.GONE : View.VISIBLE);
 
-        mBudgetView.setText(getString(R.string.remaining_budget,
-                document.get("remainingMonthlyLunchBudget"), document.get("monthlyLunchBudget")));
-        mLunchesView.setText(getString(R.string.remaining_lunches,
-                document.get("remainingLunches"), document.get("workDays")));
-        mTotalSpentView.setText(getString(R.string.total_spent,
-                document.get("totalSpent")));
-        mAverageLunchView.setText(getString(R.string.average_lunch_spending,
-                document.get("averageLunchSpending")));
-        mTodayBudgetView.setText(getString(R.string.today_budget,
-                document.get("todayBudget")));
+        ArrayList<CardData> data = new ArrayList<>();
+        String remainingBudgetString = getString(R.string.remaining_budget_value, document.get("remainingMonthlyLunchBudget"));
+        String remainingBudgetTotalString = getString(R.string.remaining_budget_total_value, document.get("monthlyLunchBudget"));
+        SpannableStringBuilder remainingBudget = getRelativeSizedString(remainingBudgetString, remainingBudgetTotalString);
+
+        String remainingLunchesString = getString(R.string.remaining_lunches_value, document.get("remainingLunches"));
+        String remainingLunchesTotalString = getString(R.string.remaining_lunches_total_value, document.get("workDays"));
+        SpannableStringBuilder remainingLunches = getRelativeSizedString(remainingLunchesString, remainingLunchesTotalString);
+
+        data.add(new CardData(getString(R.string.today_budget), getString(R.string.single_money_value, document.get("todayBudget"))));
+        data.add(new CardData(getString(R.string.remaining_budget), remainingBudget));
+        data.add(new CardData(getString(R.string.remaining_lunches), remainingLunches));
+        data.add(new CardData(getString(R.string.total_spent), getString(R.string.single_money_value, document.get("totalSpent"))));
+        data.add(new CardData(getString(R.string.average_lunch_spending), getString(R.string.single_money_value, document.get("averageLunchSpending"))));
+
+        mAdapter.setData(data);
+        mAdapter.notifyDataSetChanged();
 
         if (TextUtils.isEmpty(updatedAt)) {
             mLastUpdateView.setText(null);
@@ -155,5 +165,13 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mProgressBarView.setVisibility(View.GONE);
         mProgressCaptionView.setVisibility(View.GONE);
         mErrorView.setVisibility(View.VISIBLE);
+    }
+
+    private SpannableStringBuilder getRelativeSizedString(String bigValue, String smallValue) {
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(bigValue);
+        Spannable smallValueSpan = new SpannableString(smallValue);
+        smallValueSpan.setSpan(new RelativeSizeSpan(0.7f), 0, smallValueSpan.length(), 0);
+        stringBuilder.append(smallValueSpan);
+        return stringBuilder;
     }
 }
