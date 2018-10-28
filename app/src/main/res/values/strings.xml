@@ -7,12 +7,13 @@
     <string name="remaining_budget">Budget left</string>
     <string name="remaining_budget_value">₪%1$s\n</string>
     <string name="remaining_budget_total_value">out of ₪%1$s</string>
-    <string name="remaining_lunches">Lunches left</string>
-    <string name="remaining_lunches_value">%1$s\u0020</string>
-    <string name="remaining_lunches_total_value">/ %1$s</string>
+    <string name="remaining_work_days">Work days left</string>
+    <string name="remaining_work_days_value">%1$s\u0020</string>
+    <string name="remaining_work_days_total_value">/ %1$s</string>
     <string name="total_spent">Total spent</string>
     <string name="average_lunch_spending">Avg. lunch cost</string>
     <string name="today_budget">Today\'s budget</string>
+    <string name="next_day_budget">Next day\'s budget</string>
     <string name="single_money_value">₪%1$s</string>
     <string name="last_update_at">Last update at %1$s</string>
     <string name="transaction_amount">₪%1$.2f</string>

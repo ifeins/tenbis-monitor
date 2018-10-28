@@ -78,7 +78,8 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return position == 0 ? 2 : 1;
+                CardData card = mAdapter.getItems().get(position);
+                return card.isPrimaryCard() ? 2 : 1;
             }
         });
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -116,13 +117,17 @@ public class OverviewFragment extends Fragment implements HomeAdapterFragment {
         String remainingBudgetTotalString = getString(R.string.remaining_budget_total_value, document.get("monthlyLunchBudget"));
         SpannableStringBuilder remainingBudget = getRelativeSizedString(remainingBudgetString, remainingBudgetTotalString);
 
-        String remainingLunchesString = getString(R.string.remaining_lunches_value, document.get("remainingLunches"));
-        String remainingLunchesTotalString = getString(R.string.remaining_lunches_total_value, document.get("workDays"));
-        SpannableStringBuilder remainingLunches = getRelativeSizedString(remainingLunchesString, remainingLunchesTotalString);
+        String remainingWorkDaysString = getString(R.string.remaining_work_days_value, document.get("remainingWorkDays"));
+        String remainingWorkDaysTotalString = getString(R.string.remaining_work_days_total_value, document.get("workDays"));
+        SpannableStringBuilder remainingWorkDays = getRelativeSizedString(remainingWorkDaysString, remainingWorkDaysTotalString);
 
-        data.add(new CardData(getString(R.string.today_budget), getString(R.string.single_money_value, document.get("todayBudget"))));
+        float nextWorkDayBudget = Float.parseFloat((String) document.get("nextWorkDayBudget"));
+        data.add(new CardData(getString(R.string.today_budget), getString(R.string.single_money_value, document.get("todayBudget")), nextWorkDayBudget == -1));
+        if (nextWorkDayBudget != -1) {
+            data.add(new CardData(getString(R.string.next_day_budget), getString(R.string.single_money_value, document.get("nextWorkDayBudget"))));
+        }
         data.add(new CardData(getString(R.string.remaining_budget), remainingBudget));
-        data.add(new CardData(getString(R.string.remaining_lunches), remainingLunches));
+        data.add(new CardData(getString(R.string.remaining_work_days), remainingWorkDays));
         data.add(new CardData(getString(R.string.total_spent), getString(R.string.single_money_value, document.get("totalSpent"))));
         data.add(new CardData(getString(R.string.average_lunch_spending), getString(R.string.single_money_value, document.get("averageLunchSpending"))));
 

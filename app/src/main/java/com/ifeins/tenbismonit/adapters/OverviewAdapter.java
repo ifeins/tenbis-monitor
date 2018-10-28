@@ -46,6 +46,10 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.ViewHo
         return mData.size();
     }
 
+    public List<CardData> getItems() {
+        return mData;
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView mTitleView;
@@ -71,9 +75,9 @@ public class OverviewAdapter extends RecyclerView.Adapter<OverviewAdapter.ViewHo
             int index = mPosition % cardColors.size();
             mCardView.setCardBackgroundColor(cardColors.get(index));
 
-            if (mPosition == 0) {
-                mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(R.dimen.first_card_title_text_size));
-                mValueView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(R.dimen.first_card_value_text_size));
+            if (mCard.isPrimaryCard()) {
+                mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(R.dimen.single_card_title_text_size));
+                mValueView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(R.dimen.single_card_value_text_size));
             }
 
             mTitleView.setText(mCard.getDescription());
