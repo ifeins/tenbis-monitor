@@ -24,7 +24,7 @@
     <string name="menu_item_sync">Sync</string>
     <string name="menu_item_sign_out">Sign out</string>
     <string name="sign_up_caption">Sign up with your 10Bis credentials</string>
-    <string name="sign_up_notice"><![CDATA[10Bis Monitor does not store your credentials. <a>Learn More</a>]]></string>
+    <string name="sign_up_notice"><![CDATA[<a href="https://ifeins.github.io/tenbis-monitor/privacy_policy.html">Privacy Policy</a>]]></string>
     <string name="secure_credentials_message">10Bis Monitor sends your credentials to the server over a secure connection and stores only a generated API key used to fetch transactions on your behalf.</string>
     <string name="missing_email_error">You must provide an email</string>
     <string name="missing_password_error">You must provide a password</string>

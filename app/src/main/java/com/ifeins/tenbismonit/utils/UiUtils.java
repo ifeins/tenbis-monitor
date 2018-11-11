@@ -19,10 +19,8 @@ public class UiUtils {
      * This method assumes that the text that should be made clickable is surrounded with "<a>" and "</a>" tags.
      */
     public static void setClickableLink(@NonNull TextView view, @NonNull String text, @NonNull ClickableSpan span) {
-        int start = text.indexOf("<a>");
-        int end = text.indexOf("</a>") - 3; // minus the "<a>"
         SpannableString ss = new SpannableString(Html.fromHtml(text));
-        ss.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(span, 0, ss.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         view.setHighlightColor(Color.TRANSPARENT);
         view.setText(ss);
         view.setMovementMethod(LinkMovementMethod.getInstance());
