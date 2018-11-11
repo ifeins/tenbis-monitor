@@ -14,4 +14,9 @@
         android:icon="@drawable/ic_sign_out"
         android:orderInCategory="2"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_privacy_policy"
+        android:title="@string/menu_item_privacy_policy"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
 </menu>

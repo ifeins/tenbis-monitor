@@ -3,6 +3,7 @@ package com.ifeins.tenbismonit.activities;
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -133,6 +134,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.action_sign_out:
                 signOut();
                 return true;
+            case R.id.action_privacy_policy:
+                displayPrivacyPolicy();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -251,6 +255,11 @@ public class HomeActivity extends AppCompatActivity {
                         Log.e(TAG, "signOut: Failed to sign out", task.getException());
                     }
                 });
+    }
+
+    private void displayPrivacyPolicy() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_privacy_policy)));
+        startActivity(intent);
     }
 
     public static class HomePageAdapter extends FragmentPagerAdapter {
